@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mogd Blog</title>
+    <style>
+        body {
+            font-family: 'Ubuntu Mono', monospace;
+            background-color: #222;
+            color: #eee;
+        }
+        .blog-post {
+            border: 1px solid #444;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #333;
+        }
+        h1{
+            color:#eee;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>MOGD Inc blogs</h1>
+    <div id="blog-container"></div>
+
+    <script>
+        fetch('blog.txt')
+            .then(response => response.text())
+            .then(data => {
+                const blogContainer = document.getElementById('blog-container');
+                const posts = data.split('\n\n');
+
+                posts.forEach(post => {
+                    const postDiv = document.createElement('div');
+                    postDiv.className = 'blog-post';
+                    
+                    // Замена текста ссылок на HTML-элементы <a>
+                    const postWithLinks = post.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                    postDiv.innerHTML = postWithLinks;
+                    
+                    blogContainer.appendChild(postDiv);
+                });
+            });
+    </script>
+</body>
+</html>
